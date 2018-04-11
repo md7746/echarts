@@ -1,13 +1,11 @@
 <template>
   <section>
-    <i class="fa fa-circle" ref='ff'></i>
-    {{ msg }}
-    <mt-search></mt-search>
+    <div id="main"></div>
   </section>
 </template>
 
 <script>
-import {css,MTween} from '@/assets/js/m.Tween.js'
+import echarts from 'echarts'
 export default {
   name: 'HelloWorld',
   data () {
@@ -15,24 +13,36 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
-  mounted(){
-    var that = this;
-    setTimeout(function(){
-      // css(that.$refs.ff,"translateY",120);
-      MTween({
-        el:that.$refs.ff,
-        time:2000,
-        target:{
-          translateY:40
+  created() {
+    this.$nextTick(() => {
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+      console.log(myChart);
+      // 绘制图表
+      myChart.setOption({
+        title: {
+          text: 'ECharts 入门示例'
         },
-        type: "bounceOut"
+        tooltip: {},
+        xAxis: {
+          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        },
+        yAxis: {},
+        series: [{
+          name: '销量',
+          type: 'bar',
+          data: [5, 20, 36, 10, 10, 20]
+        }]
       });
-    },2000)
+    })
+  },
+  mounted(){
+    
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less' scoped>
-@r:50rem;
+#main{width: 600px;height: 600px;}
 </style>
